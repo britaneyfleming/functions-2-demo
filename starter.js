@@ -149,23 +149,25 @@ console.log(sand2)
 const lotr = ['biLbO BaGGINs', 'leGOlAs', 'Frodo bAGGINS', 'sAMwiSe GamGEe', 'gAndALF tHe GREY']
 
 const copyArrToCamelCase = arr => {
-    const newArr = []
-
+    const newArr = []; //for x=1, will be ['bilboBaggins']
+// i=0
     for (let i = 0; i < arr.length; i++) {
-        const str = arr[i]
-        const splitStr = str.split(' ')
-        let camelCaseStr = ''
-        
+        const str = arr[i] //str = 'biLbO BaGGINs'
+        const splitStr = str.split(' '); //splitStr = ['biLbO', 'BaGGINs']
+        let camelCaseStr = ''; // camelCase is an empty string
+        //x=0
         for (let x = 0; x < splitStr.length; x++) {
-            let word = splitStr[x]
+            let word = splitStr[x]; //word contains first string or 'biLbO'
 
-            word = word.toLowerCase()
-
+            word = word.toLowerCase(); //now word = 'bilbo' (all lowercase)
+            //x=1
             if (x !== 0) {
-                word = word.charAt(0).toUpperCase() + word.slice(1)
+                //      'B'                         + 'aggins'
+                word = word.charAt(0).toUpperCase() + word.slice(1) //'Baggins'
             }
 
-            camelCaseStr += word
+            camelCaseStr += word //will concatenate 'bilbo'
+                                    //for x=1 will concatenate 'bilboBaggins'
         }
 
         newArr.push(camelCaseStr)
@@ -175,20 +177,39 @@ const copyArrToCamelCase = arr => {
 }
 
 const copyArrToSnakeCase = arr => {
-    const newArr = []
-
+    const newArr = []; // []
+          //i=0  
     for (let i = 0; i < arr.length; i++) {
-        let str = arr[i]
-        str = str.toLowerCase()
-        const splitStr = str.split(' ')
-        const snakeCaseStr = splitStr.join('_')
-        newArr.push(snakeCaseStr)
+
+        let str = arr[i]; //'biLbO BaGGiNs'
+        str = str.toLowerCase(); //'bilbo baggins'
+        const splitStr = str.split(' '); // ['bilbo', 'baggins']
+        const snakeCaseStr = splitStr.join('_'); // 'bilbo_baggins"
+        newArr.push(snakeCaseStr) // gets pushed into newArr and become ['bilbo_baggins']
     }
 
-    return newArr
-}
+    return newArr;
+};
   
 // CODE HERE
+//how we can build higher order function array methods
+//basically this is the .map method built out
+let myArr = [1, 2, 3, 4, 5, 6]
+const multiplyByFour = num => num * 4;
+
+const copyArrAndChange = (arr, callBack) => {
+    let results = [];
+
+    for(let i=0; i < arr.length; i++){
+        let newValue = callBack(arr[i]);
+        results.push(newValue);
+    }
+
+    return results;
+}
+
+let res = copyArrAndChange(myArr, multiplyByFour);
+console.log(res);
 
 
 ////////////////////////////////////////
@@ -205,8 +226,18 @@ const copyArrToSnakeCase = arr => {
 
 const colors = ['red', 'blue', 'yellow', 'green', 'orange']
 
-const mappedColors // = colors.map()
+const mappedColors = colors.map(() => 'pink')
+//console.log(mappedColors) //should show pink for each item in array
 
+//to change only one item in an array to pink, see below
+//const colors = ['red', 'blue', 'yellow', 'green', 'orange'];
+
+//const mappedColors = colors.map((element, index, arr) => {
+//    if(element === 'red'){
+//        arr[index] = 'pink'
+//    }
+//});
+//console.log(mappedColors)
 /*
     Edit the formalGreeting function and use the built in .map method 
     to map over the names parameter and return a new array with "Hello, " 
@@ -219,10 +250,13 @@ const formalNames = ['Bernard', 'Elizabeth', 'Conrad', 'Mary Margaret']
 
 const formalGreeting = names => {
     // CODE HERE
+    let formalArray = names.map((name) => `Hello, ${name}`);
+    return formalArray;
 }
 
 // Call formalGreeting passing in the formalNames array
-
+let fnames = formalGreeting(formalNames);
+console.log(fnames)
 
 //// FILTER ////
 
@@ -233,8 +267,8 @@ const formalGreeting = names => {
 
 const places = ['Binghampton', 'Albany', 'New York', 'Ithaca', 'Auburn', 'Rochester', 'Buffalo']
 
-const placesThatStartWithA // = places.filter()
-
+const placesThatStartWithA = places.filter(place => place.charAt(0) === 'A');
+console.log(placesThatStartWithA)
 
 /*
     Create a function called identifier that uses the filter higher order 
@@ -259,6 +293,8 @@ let jobs = [
 // Do not edit the code above.
 
 // CODE HERE
+let identifier = jobs.filter((job) => job.programmer);
+console.log(identifier[0]) //should give {programmer: 'Steve} since he is the only programmer, and should be an object and not an array
 
 // call the function passing in the jobs array
 
@@ -277,13 +313,16 @@ const numsToReduce = [43, 7, 24, 79, 290]
 
 const productOfArray = numbers => {
     // Code here
-}
+    let reduced = numbers.reduce((acc, curr) => acc * curr) //acc=accumulator and curr=current. if we dont give acc a number to start with, it will start with the index position 0 and the current would be index position 1 in the first loop
+    return reduced;
+};
 
 // CODE HERE
 
 
 // call productOfArray passing in numsToReduce
-
+let result = productOfArray(numsToReduce);
+console.log(result)
 
 /*
     Pass a callback and an initial value to reduce 
@@ -311,4 +350,5 @@ const expenses = [
     }
 ]
 
-const remaining // = expenses.reduce(//callback, //initial value)
+const remaining  = expenses.reduce((acc, curr) => acc - curr.amount, budget)
+console.log(remaining)
